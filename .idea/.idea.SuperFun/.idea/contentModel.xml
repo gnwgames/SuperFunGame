@@ -9,6 +9,7 @@
       <e p="Assets" t="Include">
         <e p="Scripts" t="Include">
           <e p="Drone.cs" t="Include" />
+          <e p="DroneInput.cs" t="Include" />
           <e p="Obstacles" t="Include">
             <e p="Bump.cs" t="Include" />
             <e p="Cube.cs" t="Include" />
