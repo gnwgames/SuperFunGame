@@ -6,9 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(DroneInput))]
 public class Drone : MonoBehaviour
 {
-    [SerializeField] private float zVelocity = 10f;
+    [SerializeField] private float forwardForce = 10f;
     [SerializeField] private float jumpForce = 100f;
-    [SerializeField] private float horizontalForce = 100f;
+    [SerializeField] private float panForce = 100f;
+    [SerializeField] private float maxForwardVelocity = 10f;
     
     private DroneInput _input;
     private Rigidbody _rb;
@@ -21,12 +22,16 @@ public class Drone : MonoBehaviour
 
     public void Update()
     {
-        _rb.velocity = new Vector3(
-            _rb.velocity.x, _rb.velocity.y, zVelocity);
+        if (_rb.velocity.magnitude > maxForwardVelocity)
+        {
+            _rb.velocity = new Vector3(
+                _rb.velocity.x, _rb.velocity.y, maxForwardVelocity);
+        }
     }
 
     public void FixedUpdate()
     {
+        _rb.AddForce(transform.forward * (forwardForce * Time.deltaTime));
         if (_input.Jump())
         {
             _rb.AddForce(
@@ -34,11 +39,11 @@ public class Drone : MonoBehaviour
         }
         if (_input.Left() > 0)
         {
-            _rb.AddForce(-transform.right * (horizontalForce * Time.deltaTime));
+            _rb.AddForce(-transform.right * (panForce * Time.deltaTime));
         }
         if (_input.Right() > 0)
         {
-            _rb.AddForce(transform.right * (horizontalForce * Time.deltaTime));
+            _rb.AddForce(transform.right * (panForce * Time.deltaTime));
         }
     }
 }
