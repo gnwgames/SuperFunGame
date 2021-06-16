@@ -18,6 +18,7 @@ public class Drone2d : MonoBehaviour
 
     private float _roll;
     private float _pitch;
+    private Quaternion _targetRot;
 
     public void Awake()
     {
@@ -35,9 +36,9 @@ public class Drone2d : MonoBehaviour
 
     public void FixedUpdate()
     {
-        var minVelocity = Vector3.forward * minForwardVelocity;
+        var minVelocity = transform.forward * minForwardVelocity;
         var forwardVelocity = drone.transform.forward * maxForwardVelocity;
-        var horizontalVelocity = Vector3.right * (_input.leftStickHoriz * Mathf.Abs(_input.rightStickVert) * maxForwardVelocity);
+        var horizontalVelocity = transform.right * (_input.leftStickHoriz * Mathf.Abs(_input.rightStickVert) * maxForwardVelocity);
         if (_input.rightStickVert > 0 && _input.leftStickHoriz > 0 || _input.rightStickVert > 0 && _input.leftStickHoriz < 0)
         {
             horizontalVelocity *= -1;
@@ -50,9 +51,9 @@ public class Drone2d : MonoBehaviour
         
         _roll = maxRoll * _input.leftStickHoriz;
         _pitch = maxPitch * _input.rightStickVert * Mathf.Abs(_input.leftStickHoriz);
-        var rollQuat = Quaternion.AngleAxis(_roll, Vector3.back);
+        var rollQuat = Quaternion.AngleAxis(_roll, -Vector3.forward);
         var pitchQuat = Quaternion.AngleAxis(_pitch , Vector3.right);
-        drone.transform.rotation = Quaternion.Lerp(drone.transform.rotation, rollQuat * pitchQuat, rotationSpeed * Time.deltaTime);
+        drone.transform.localRotation = Quaternion.Lerp(drone.transform.localRotation, rollQuat * pitchQuat, rotationSpeed * Time.deltaTime);
 
         var rot = _pitch;
         if (_input.rightStickVert < 0 && _input.leftStickHoriz > 0 || _input.rightStickVert > 0 && _input.leftStickHoriz > 0)
@@ -60,7 +61,10 @@ public class Drone2d : MonoBehaviour
             rot *= -1;
         }
 
-        var rotQuat = Quaternion.AngleAxis(rot, Vector3.up);
-        transform.rotation = Quaternion.Lerp(transform.rotation, rotQuat, lookSpeed * Time.deltaTime);
+        var rotQuat = Quaternion.AngleAxis(transform.rotation.eulerAngles.y + rot, transform.up);
+        var lerpedRot = Quaternion.Lerp(transform.rotation, rotQuat, lookSpeed * Time.deltaTime);
+        lerpedRot.x = 0;
+        lerpedRot.z = 0;
+        _targetRot = lerpedRot;
     }
 }
