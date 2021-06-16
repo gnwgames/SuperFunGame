@@ -9,7 +9,8 @@ public class Drone2d : MonoBehaviour
     [SerializeField] private float maxForwardVelocity = 10f;
     [SerializeField] private float minForwardVelocity = 5f;
     [SerializeField] private float velocityLerpSpeed = 1f;
-    [SerializeField] private float rotationSpeed = 5;
+    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float lookSpeed = 1f;
     [SerializeField] private float maxPitch = (Mathf.PI / 2.5f) * Mathf.Rad2Deg;
     
     private DroneInput _input;
@@ -36,7 +37,7 @@ public class Drone2d : MonoBehaviour
     {
         var minVelocity = Vector3.forward * minForwardVelocity;
         var forwardVelocity = drone.transform.forward * maxForwardVelocity;
-        var horizontalVelocity = Vector3.right * (_input.leftStickHoriz * maxForwardVelocity);
+        var horizontalVelocity = Vector3.right * (_input.leftStickHoriz * Mathf.Abs(_input.rightStickVert) * maxForwardVelocity);
         if (_input.rightStickVert > 0 && _input.leftStickHoriz > 0 || _input.rightStickVert > 0 && _input.leftStickHoriz < 0)
         {
             horizontalVelocity *= -1;
@@ -48,10 +49,18 @@ public class Drone2d : MonoBehaviour
         
         
         _roll = maxRoll * _input.leftStickHoriz;
-        _pitch = maxPitch * _input.rightStickVert;
+        _pitch = maxPitch * _input.rightStickVert * Mathf.Abs(_input.leftStickHoriz);
         var rollQuat = Quaternion.AngleAxis(_roll, Vector3.back);
         var pitchQuat = Quaternion.AngleAxis(_pitch , Vector3.right);
         drone.transform.rotation = Quaternion.Lerp(drone.transform.rotation, rollQuat * pitchQuat, rotationSpeed * Time.deltaTime);
-        // transform.rotation = Quaternion.Lerp(transform.rotation, pitchQuat, rotationSpeed * Time.deltaTime);
+
+        var rot = _pitch;
+        if (_input.rightStickVert < 0 && _input.leftStickHoriz > 0 || _input.rightStickVert > 0 && _input.leftStickHoriz > 0)
+        {
+            rot *= -1;
+        }
+
+        var rotQuat = Quaternion.AngleAxis(rot, Vector3.up);
+        transform.rotation = Quaternion.Lerp(transform.rotation, rotQuat, lookSpeed * Time.deltaTime);
     }
 }
