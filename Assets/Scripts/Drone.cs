@@ -6,13 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(DroneInput))]
 public class Drone : MonoBehaviour
 {
-    [SerializeField] private float forwardForce = 10f;
-    [SerializeField] private float jumpForce = 100f;
-    [SerializeField] private float panForce = 100f;
+    [SerializeField] private GameObject drone;
+    [SerializeField] private float rollPct = 1.0f;
     [SerializeField] private float maxForwardVelocity = 10f;
+    [SerializeField] private float rotationSpeed = 5;
+    [SerializeField] private float maxPitch = (Mathf.PI / 2) * Mathf.Rad2Deg;
     
     private DroneInput _input;
     private Rigidbody _rb;
+
+    private float _roll;
+    private float _pitch;
 
     public void Awake()
     {
@@ -31,19 +35,14 @@ public class Drone : MonoBehaviour
 
     public void FixedUpdate()
     {
-        _rb.AddForce(transform.forward * (forwardForce * Time.deltaTime));
-        if (_input.Jump())
-        {
-            _rb.AddForce(
-                transform.up * (jumpForce * Time.deltaTime));
-        }
-        if (_input.Left() > 0)
-        {
-            _rb.AddForce(-transform.right * (panForce * Time.deltaTime));
-        }
-        if (_input.Right() > 0)
-        {
-            _rb.AddForce(transform.right * (panForce * Time.deltaTime));
-        }
+        _rb.velocity = Vector3.forward * maxForwardVelocity;
+
+        _pitch = maxPitch * _input.rightStickVert;
+        _roll = Mathf.Atan2(_input.leftStickHoriz, _input.leftStickVert) * Mathf.Rad2Deg;
+        var rollQuat = Quaternion.AngleAxis(_roll * new Vector2(_input.leftStickHoriz, _input.leftStickVert).magnitude , Vector3.back);
+        var pitchQuat = Quaternion.AngleAxis(_pitch , Vector3.right);
+        drone.transform.rotation = Quaternion.Lerp(drone.transform.rotation, rollQuat * pitchQuat, rotationSpeed * Time.deltaTime);
+
     }
+    
 }

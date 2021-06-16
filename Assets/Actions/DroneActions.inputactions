@@ -65,6 +65,90 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "DroneController",
+            "id": "33b3c56b-ab54-4dad-b4b9-665b6d8f1692",
+            "actions": [
+                {
+                    "name": "LeftStickVert",
+                    "type": "Value",
+                    "id": "c59cc29d-79b5-4cbd-b316-f430b1b687a0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RightStickVert",
+                    "type": "Value",
+                    "id": "0e3af3af-7eda-466e-8cdb-767decbcbc69",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "LeftStickHoriz",
+                    "type": "Value",
+                    "id": "a9177a9a-1b17-49a8-a97a-e1812273e1ad",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RightStickHoriz",
+                    "type": "Value",
+                    "id": "34e0e930-8c29-4fc5-89b9-c9542b83cfbc",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "f09d11c5-8bd3-4d4d-9cb0-40ccedc5aac9",
+                    "path": "<Gamepad>/leftStick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftStickVert",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "427fb059-b580-4f97-8239-ab27f359b12b",
+                    "path": "<Gamepad>/leftStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LeftStickHoriz",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "225e4a52-b166-41a4-8c7d-ec4bebe03d23",
+                    "path": "<Gamepad>/rightStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightStickHoriz",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ad43f8a-b4e7-440e-8887-cfebfd0750a9",
+                    "path": "<Gamepad>/rightStick/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "RightStickVert",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

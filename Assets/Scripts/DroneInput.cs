@@ -6,39 +6,28 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class DroneInput : MonoBehaviour
 {
-    [SerializeField] private bool jump;
-    [SerializeField] private float left;
-    [SerializeField] private float right;
-
-    public void OnJump(InputValue value)
+    [SerializeField] public float leftStickVert;
+    [SerializeField] public float leftStickHoriz;
+    [SerializeField] public float rightStickHoriz;
+    [SerializeField] public float rightStickVert;
+    
+    public void OnLeftStickVert(InputValue value)
     {
-        jump = value.isPressed;
+        leftStickVert = value.Get<float>();
     }
 
-    public void OnLeft(InputValue value)
+    public void OnLeftStickHoriz(InputValue value)
     {
-        left = value.Get<float>();
+        leftStickHoriz = value.Get<float>();
     }
 
-    public void OnRight(InputValue value)
+    public void OnRightStickVert(InputValue value)
     {
-        right = value.Get<float>();
+        rightStickVert = value.Get<float>();
     }
-
-    public bool Jump()
+    
+    public void OnRightStickHoriz(InputValue value)
     {
-        bool val = jump;
-        jump = false;
-        return val;
-    }
-
-    public float Left()
-    {
-        return left;
-    }
-
-    public float Right()
-    {
-        return right;
+        rightStickHoriz = value.Get<float>();
     }
 }
