@@ -38,7 +38,7 @@ public class Drone2d : MonoBehaviour
     {
         var minVelocity = transform.forward * minForwardVelocity;
         var forwardVelocity = drone.transform.forward * maxForwardVelocity;
-        var horizontalVelocity = transform.right * (_input.leftStickHoriz * Mathf.Abs(_input.rightStickVert) * maxForwardVelocity);
+        var horizontalVelocity = transform.right * (_input.leftStickHoriz  * maxForwardVelocity);
         if (_input.rightStickVert > 0 && _input.leftStickHoriz > 0 || _input.rightStickVert > 0 && _input.leftStickHoriz < 0)
         {
             horizontalVelocity *= -1;
